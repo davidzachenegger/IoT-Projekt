@@ -417,12 +417,12 @@ Das Projekt erfüllt alle Anforderungen eines einfachen IoT-Überwachungssystems
 
 ## 7. Quellen
 
-[1] Espressif Systems, “ESP-NOW Documentation,” 2025. [Online]. Available: https://www.espressif.com
+[1] Espressif Systems, “ESP-NOW Documentation,” 2025. [Online]. Verfügbar unter: https://www.espressif.com
 
-[2] Arduino, “ESP32 WiFi Library,” 2025. [Online]. Available: https://docs.arduino.cc
+[2] Arduino, “ESP32 WiFi Library,” 2025. [Online]. Verfügbar unter: https://docs.arduino.cc
 
-[3] Adafruit, “SSD1306 OLED Guide,” 2024. [Online]. Available: https://learn.adafruit.com
+[3] Adafruit, “SSD1306 OLED Guide,” 2024. [Online]. Verfügbar unter:: https://learn.adafruit.com
 
-[4] Chart.js, “JavaScript Chart Library,” 2025. [Online]. Available: https://www.chartjs.org
+[4] Chart.js, “JavaScript Chart Library,” 2025. [Online]. Verfügbar unter: https://www.chartjs.org
 
-[5] Wikipedia, “ESP32 Microcontroller,” 2025. [Online]. Available: https://en.wikipedia.org/wiki/ESP32
+[5] Wikipedia, “ESP32 Microcontroller,” 2025. [Online]. Verfügbar unter: https://en.wikipedia.org/wiki/ESP32
