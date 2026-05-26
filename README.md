@@ -112,71 +112,72 @@ Dabei wurde geprüft, ob:
 #include <WiFi.h>
 #include <esp_now.h>
 
-/* ===== PINS ===== */
-#define GAS_PIN     34
-#define MOTION_PIN  32
+// ===== Sensor Pins =====
+#define GAS_PIN     34   // Analog-Eingang für Gassensor
+#define MOTION_PIN  32   // Digitaler Eingang für PIR Sensor
 
-/* ===== RECEIVER MAC ===== */
+// ===== MAC-Adresse des Empfängers =====
 uint8_t receiverMac[] = {0x00,0x70,0x07,0x1C,0xED,0xED};
 
-/* ===== DATA ===== */
+// ===== Datenstruktur für Übertragung =====
 typedef struct SensorData {
-  int gas;
-  bool motion;
+  int gas;        // Gaswert (analog)
+  bool motion;    // Bewegung erkannt (true/false)
 } SensorData;
 
 SensorData data;
 
-/* ===== SEND CALLBACK (ESP32 CORE 3.x) ===== */
+// ===== Callback nach dem Senden =====
 void onSend(const wifi_tx_info_t *info, esp_now_send_status_t status) {
-  Serial.print("Send status: ");
+  Serial.print("Send Status: ");
   Serial.println(status == ESP_NOW_SEND_SUCCESS ? "OK" : "FAIL");
 }
 
-/* ===== SETUP ===== */
+// ===== Setup =====
 void setup() {
   Serial.begin(115200);
 
+  // Sensor Pins definieren
   pinMode(GAS_PIN, INPUT);
   pinMode(MOTION_PIN, INPUT);
 
+  // ESP32 als WLAN Station (not AP)
   WiFi.mode(WIFI_STA);
   WiFi.disconnect();
 
+  // ESP-NOW starten
   if (esp_now_init() != ESP_OK) {
-    Serial.println("ESP-NOW init failed");
+    Serial.println("ESP-NOW Init fehlgeschlagen");
     return;
   }
 
+  // Callback registrieren
   esp_now_register_send_cb(onSend);
 
+  // Empfänger hinzufügen
   esp_now_peer_info_t peerInfo = {};
   memcpy(peerInfo.peer_addr, receiverMac, 6);
-  peerInfo.channel = 0;     // ВАЖНО: авто
-  peerInfo.encrypt = false;
+  peerInfo.channel = 0;      // Auto Channel
+  peerInfo.encrypt = false;  // keine Verschlüsselung
 
   if (esp_now_add_peer(&peerInfo) != ESP_OK) {
-    Serial.println("Failed to add peer");
+    Serial.println("Peer konnte nicht hinzugefügt werden");
     return;
   }
 
-  Serial.println("Sender ready");
+  Serial.println("Sender bereit");
 }
 
-/* ===== LOOP ===== */
+// ===== Loop =====
 void loop() {
-  data.gas = analogRead(GAS_PIN);
-  data.motion = digitalRead(MOTION_PIN);
+  // Sensorwerte auslesen
+  data.gas = analogRead(GAS_PIN);       // Gaswert einlesen
+  data.motion = digitalRead(MOTION_PIN); // Bewegung lesen
 
-  esp_err_t result = esp_now_send(receiverMac,
-                                  (uint8_t *)&data,
-                                  sizeof(data));
+  // Daten an Empfänger senden
+  esp_now_send(receiverMac, (uint8_t *)&data, sizeof(data));
 
-  if (result != ESP_OK) {
-    Serial.println("Send error");
-  }
-
-  delay(1500);
+  delay(1500); // Pause zur Stabilisierung
 }
 ```
 
@@ -192,150 +193,193 @@ void loop() {
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
-/* ==== OLED ==== */
+// ===== OLED Display Setup =====
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
-/* ==== RGB LED ==== */
+// ===== RGB LED Pins =====
 #define LED_R 25
 #define LED_G 26
 #define LED_B 27
 
-/* ==== DATA ==== */
+// ===== Datenstruktur (muss identisch zum Sender sein) =====
 typedef struct {
-int gas;
-bool motion;
+  int gas;       // Gaswert
+  bool motion;   // Bewegung
 } SensorData;
 
-SensorData incoming;
-unsigned long lastPacket = 0;
+SensorData incoming;       // gespeicherte Daten
+unsigned long lastPacket = 0; // Zeit des letzten Empfangs
 
-/* ==== WEB ==== */
+// ===== Webserver =====
 WebServer server(80);
 
-/* ==== LED ==== */
+// ===== LED Steuerung =====
 void setColor(bool r, bool g, bool b) {
-digitalWrite(LED_R, r);
-digitalWrite(LED_G, g);
-digitalWrite(LED_B, b);
+  digitalWrite(LED_R, r);
+  digitalWrite(LED_G, g);
+  digitalWrite(LED_B, b);
 }
 
-/* ==== ESP-NOW RECEIVE ==== */
-void onReceive(const esp_now_recv_info*, const uint8_t* data, int len) {
-if (len == sizeof(SensorData)) {
-memcpy(&incoming, data, sizeof(incoming));
-lastPacket = millis();
-}
+// ===== ESP-NOW Empfang =====
+void onReceive(const esp_now_recv_info*, const uint8_t *data, int len) {
+  // Prüfen ob richtige Datenlänge ankommt
+  if (len == sizeof(SensorData)) {
+    memcpy(&incoming, data, sizeof(incoming)); // Daten kopieren
+    lastPacket = millis(); // Zeit speichern
+  }
 }
 
-/* ==== DISPLAY ==== */
+// ===== OLED Anzeige =====
 void updateDisplay() {
-display.clearDisplay();
-display.setCursor(0,0);
-display.setTextSize(1);
-display.setTextColor(SSD1306_WHITE);
+  display.clearDisplay();
+  display.setCursor(0, 0);
+  display.setTextSize(1);
+  display.setTextColor(SSD1306_WHITE);
 
-display.println("IoT Receiver");
-display.print("Gas: "); display.println(incoming.gas);
-display.print("Motion: "); display.println(incoming.motion ? "YES":"NO");
-display.print("Alive: "); display.print((millis()-lastPacket)/1000); display.println("s");
+  display.println("IoT Receiver");
 
-display.display();
+  display.print("Gas: ");
+  display.println(incoming.gas);
+
+  display.print("Motion: ");
+  display.println(incoming.motion ? "YES" : "NO");
+
+  display.print("Last: ");
+  display.print((millis() - lastPacket) / 1000);
+  display.println(" s");
+
+  display.display();
 }
 
-/* ==== API ==== */
+// ===== API für Webserver =====
 void handleAPI() {
-server.sendHeader("Access-Control-Allow-Origin","*");
-server.send(200,"application/json",
-"{ \"gas\": "+String(incoming.gas)+
-", \"motion\": "+String(incoming.motion?"true":"false")+" }"
-);
+  server.sendHeader("Access-Control-Allow-Origin", "*");
+
+  // JSON Ausgabe für Website
+  server.send(200, "application/json",
+    "{ \"gas\": " + String(incoming.gas) +
+    ", \"motion\": " + String(incoming.motion ? "true" : "false") + " }"
+  );
 }
 
-/* ==== WEB PAGE ==== */
+// ===== HTML Webseite =====
 void handleRoot() {
-server.sendHeader("Cache-Control","no-store");
+  server.sendHeader("Cache-Control", "no-store");
 
-String html = R"rawliteral(
+  String html = R"rawliteral(
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>IoT Dashboard</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <style>
-body{background:#111;color:#0f0;font-family:Arial;text-align:center}
-canvas{max-width:90%}
+body { background:#111; color:#0f0; font-family:Arial; text-align:center; }
+canvas { max-width:90%; }
 </style>
 </head>
-<body>
 
+<body>
 <h1>IoT Dashboard</h1>
+
 <p id="gas">Gas: --</p>
 <p id="motion">Motion: --</p>
+
 <canvas id="chart"></canvas>
 
 <script>
-let gasData=[], labels=[];
-const ctx=document.getElementById("chart").getContext("2d");
-const chart=new Chart(ctx,{
-type:"line",
-data:{labels:labels,datasets:[{label:"Gas",data:gasData,borderColor:"lime"}]}
+let gasData = [];
+let labels = [];
+
+const ctx = document.getElementById("chart").getContext("2d");
+
+const chart = new Chart(ctx, {
+  type: "line",
+  data: {
+    labels: labels,
+    datasets: [{
+      label: "Gas",
+      data: gasData,
+      borderColor: "lime"
+    }]
+  }
 });
 
-async function update(){
-const r=await fetch("/api/data",{cache:"no-store"});
-const d=await r.json();
-document.getElementById("gas").innerText="Gas: "+d.gas;
-document.getElementById("motion").innerText="Motion: "+(d.motion?"YES":"NO");
+async function update() {
+  const res = await fetch("/api/data", { cache: "no-store" });
+  const data = await res.json();
 
-labels.push("");
-gasData.push(d.gas);
-if(labels.length>20){labels.shift();gasData.shift();}
-chart.update();
+  document.getElementById("gas").innerText = "Gas: " + data.gas;
+  document.getElementById("motion").innerText = "Motion: " + (data.motion ? "YES" : "NO");
+
+  labels.push("");
+  gasData.push(data.gas);
+
+  if (labels.length > 20) {
+    labels.shift();
+    gasData.shift();
+  }
+
+  chart.update();
 }
-setInterval(update,2000);
+
+setInterval(update, 2000);
 </script>
 
 </body>
 </html>
 )rawliteral";
 
-server.send(200,"text/html",html);
+  server.send(200, "text/html", html);
 }
 
+// ===== Setup =====
 void setup() {
-Serial.begin(115200);
+  Serial.begin(115200);
 
-pinMode(LED_R,OUTPUT);
-pinMode(LED_G,OUTPUT);
-pinMode(LED_B,OUTPUT);
+  // LED Pins
+  pinMode(LED_R, OUTPUT);
+  pinMode(LED_G, OUTPUT);
+  pinMode(LED_B, OUTPUT);
 
-Wire.begin();
-display.begin(SSD1306_SWITCHCAPVCC,0x3C);
+  // OLED starten
+  Wire.begin();
+  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
 
-WiFi.mode(WIFI_AP);
-WiFi.softAP("IoT_Station");
+  // Access Point erstellen
+  WiFi.mode(WIFI_AP);
+  WiFi.softAP("IoT_Station");
 
-esp_now_init();
-esp_now_register_recv_cb(onReceive);
+  // ESP-NOW starten
+  esp_now_init();
+  esp_now_register_recv_cb(onReceive);
 
-server.on("/", handleRoot);
-server.on("/api/data", handleAPI);
-server.begin();
+  // Webserver Routes
+  server.on("/", handleRoot);
+  server.on("/api/data", handleAPI);
+  server.begin();
 
-Serial.println("Receiver ready");
+  Serial.println("Receiver ready");
 }
 
+// ===== Loop =====
 void loop() {
-if (millis() - lastPacket > 6000) setColor(1,0,0);
+  // Status LED Logik
+  if (millis() - lastPacket > 6000) {
+    setColor(1, 0, 0); // Rot = keine Daten
+  }
+  else if (incoming.motion) {
+    setColor(0, 0, 1); // Blau = Bewegung
+  }
+  else {
+    setColor(0, 1, 0); // Grün = alles ok
+  }
 
-else if (incoming.motion) setColor(0,0,1);
-else setColor(0,1,0);
-
-updateDisplay();
-server.handleClient();
+  updateDisplay();     // OLED aktualisieren
+  server.handleClient(); // Webserver laufen lassen
 }
 ```
 
