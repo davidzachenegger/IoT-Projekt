@@ -112,14 +112,14 @@ Dabei wurde geprüft, ob:
 #include <WiFi.h>
 #include <esp_now.h>
 
-// ===== Sensor Pins =====
+// ===== Sensor Pins ===== //
 #define GAS_PIN     34   // Analog-Eingang für Gassensor
 #define MOTION_PIN  32   // Digitaler Eingang für PIR Sensor
 
-// ===== MAC-Adresse des Empfängers =====
+// ===== MAC-Adresse des Empfängers ===== //
 uint8_t receiverMac[] = {0x00,0x70,0x07,0x1C,0xED,0xED};
 
-// ===== Datenstruktur für Übertragung =====
+// ===== Datenstruktur für Übertragung ===== //
 typedef struct SensorData {
   int gas;        // Gaswert (analog)
   bool motion;    // Bewegung erkannt (true/false)
@@ -127,13 +127,13 @@ typedef struct SensorData {
 
 SensorData data;
 
-// ===== Callback nach dem Senden =====
+// ===== Callback nach dem Senden ===== //
 void onSend(const wifi_tx_info_t *info, esp_now_send_status_t status) {
   Serial.print("Send Status: ");
   Serial.println(status == ESP_NOW_SEND_SUCCESS ? "OK" : "FAIL");
 }
 
-// ===== Setup =====
+// ===== Setup ===== //
 void setup() {
   Serial.begin(115200);
 
@@ -151,7 +151,7 @@ void setup() {
     return;
   }
 
-  // Callback registrieren
+  // Callback registrieren 
   esp_now_register_send_cb(onSend);
 
   // Empfänger hinzufügen
@@ -168,7 +168,7 @@ void setup() {
   Serial.println("Sender bereit");
 }
 
-// ===== Loop =====
+// ===== Loop ===== //
 void loop() {
   // Sensorwerte auslesen
   data.gas = analogRead(GAS_PIN);       // Gaswert einlesen
@@ -193,17 +193,17 @@ void loop() {
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
-// ===== OLED Display Setup =====
+// ===== OLED Display Setup ===== //
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
-// ===== RGB LED Pins =====
+// ===== RGB LED Pins ===== //
 #define LED_R 25
 #define LED_G 26
 #define LED_B 27
 
-// ===== Datenstruktur (muss identisch zum Sender sein) =====
+// ===== Datenstruktur (muss identisch zum Sender sein) ===== //
 typedef struct {
   int gas;       // Gaswert
   bool motion;   // Bewegung
@@ -212,17 +212,17 @@ typedef struct {
 SensorData incoming;       // gespeicherte Daten
 unsigned long lastPacket = 0; // Zeit des letzten Empfangs
 
-// ===== Webserver =====
+// ===== Webserver ===== //
 WebServer server(80);
 
-// ===== LED Steuerung =====
+// ===== LED Steuerung ===== //
 void setColor(bool r, bool g, bool b) {
   digitalWrite(LED_R, r);
   digitalWrite(LED_G, g);
   digitalWrite(LED_B, b);
 }
 
-// ===== ESP-NOW Empfang =====
+// ===== ESP-NOW Empfang ===== //
 void onReceive(const esp_now_recv_info*, const uint8_t *data, int len) {
   // Prüfen ob richtige Datenlänge ankommt
   if (len == sizeof(SensorData)) {
@@ -231,7 +231,7 @@ void onReceive(const esp_now_recv_info*, const uint8_t *data, int len) {
   }
 }
 
-// ===== OLED Anzeige =====
+// ===== OLED Anzeige ===== //
 void updateDisplay() {
   display.clearDisplay();
   display.setCursor(0, 0);
@@ -253,7 +253,7 @@ void updateDisplay() {
   display.display();
 }
 
-// ===== API für Webserver =====
+// ===== API für Webserver ===== //
 void handleAPI() {
   server.sendHeader("Access-Control-Allow-Origin", "*");
 
@@ -264,7 +264,7 @@ void handleAPI() {
   );
 }
 
-// ===== HTML Webseite =====
+// ===== HTML Webseite ===== //
 void handleRoot() {
   server.sendHeader("Cache-Control", "no-store");
 
@@ -336,7 +336,7 @@ setInterval(update, 2000);
   server.send(200, "text/html", html);
 }
 
-// ===== Setup =====
+// ===== Setup ===== //
 void setup() {
   Serial.begin(115200);
 
@@ -365,7 +365,7 @@ void setup() {
   Serial.println("Receiver ready");
 }
 
-// ===== Loop =====
+// ===== Loop ===== //
 void loop() {
   // Status LED Logik
   if (millis() - lastPacket > 6000) {
