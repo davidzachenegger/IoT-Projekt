@@ -1,4 +1,4 @@
-# 🟦 Projekttitel  
+# IoT-Projekt
 ## Smartes Überwachungssystem mit Gas- und Bewegungssensor  
 
 **Untertitel:** Sicherheitsüberwachung mit ESP32 und Sensorik  
