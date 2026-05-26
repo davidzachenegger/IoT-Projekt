@@ -402,9 +402,7 @@ Der Empfänger verarbeitet die empfangenen Daten, stellt sie auf einem OLED-Disp
 | 9.0      | 580              | Nein           | Gas erhöht   |
 | 10.5     | 200              | Nein           | OK           |
 
-Die Tabelle zeigt statistische Kennwerte sowie Korrelationen zwischen verschiedenen Variablen. Besonders auffällig ist die Korrelation von 0.45 zwischen dem Startgehalt und dem internen Status, was auf einen moderaten positiven Zusammenhang hinweist.
-
-Negative Werte, wie beispielsweise -0.29 bei der Betriebszugehörigkeit, deuten auf einen inversen Zusammenhang hin. Insgesamt wird deutlich, dass mehrere Faktoren gemeinsam die Entwicklung und Leistung beeinflussen.
+Die Tabelle zeigt beispielhafte Sensordaten aus dem Testbetrieb des Systems. Es ist erkennbar, dass erhöhte Gaswerte sowie erkannte Bewegung korrekt im System dargestellt werden.
 
 --- 
 
