@@ -180,6 +180,7 @@ void loop() {
   delay(1500); // Pause zur Stabilisierung
 }
 ```
+Der Sender liest kontinuierlich die Werte des Gas- und Bewegungssensors aus. Diese Daten werden in einer Struktur gespeichert und über das ESP-NOW-Protokoll an den Empfänger gesendet.
 
 ---
 
@@ -382,6 +383,7 @@ void loop() {
   server.handleClient(); // Webserver laufen lassen
 }
 ```
+Der Empfänger verarbeitet die empfangenen Daten, stellt sie auf einem OLED-Display dar und stellt sie zusätzlich über einen Webserver zur Verfügung. Die LED signalisiert dabei den aktuellen Status des Systems.
 
 ---
 
@@ -396,6 +398,10 @@ void loop() {
 | 5. Organizational tenure         | 3697 | 6.45  | 6.62 | -0.29 | 0.09  | 0.01  | 0.09  | —     |       |       |
 | 6. Unit service performance      | 3505 | 85.00 | 6.98 | -0.25 | -0.39 | 0.24  | 0.08  | 0.01  | —     |       |
 | 7. Unit financial performance    | 694  | 42.61 | 5.86 | 0.00  | -0.03 | 0.12  | -0.07 | -0.02 | 0.16  | —     |
+
+Die Tabelle zeigt statistische Kennwerte sowie Zusammenhänge zwischen verschiedenen Variablen. Dabei ist erkennbar, dass insbesondere das Startgehalt einen positiven Zusammenhang mit späterer Leistung aufweist.
+
+Negative Werte deuten auf schwache oder gegensätzliche Zusammenhänge hin. Insgesamt wird deutlich, dass mehrere Faktoren die Entwicklung und Leistung beeinflussen.
 
 --- 
 
