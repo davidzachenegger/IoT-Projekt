@@ -269,10 +269,11 @@ Serial.println("Receiver ready");
 
 void loop() {
 if (millis() - lastPacket > 6000) setColor(1,0,0);
-```
+
 else if (incoming.motion) setColor(0,0,1);
 else setColor(0,1,0);
 
 updateDisplay();
 server.handleClient();
 }
+```
