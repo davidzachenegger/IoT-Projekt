@@ -25,23 +25,23 @@ Zusätzlich erfolgt eine lokale Anzeige über ein OLED-Display sowie eine LED-St
 
 ## 3. Theorie
 
-ESP32
+#### ESP32
 
 Der ESP32 ist ein Mikrocontroller mit integrierter WLAN- und Bluetooth-Funktion. Er wird in IoT-Anwendungen eingesetzt, da er analoge und digitale Sensoren auslesen und gleichzeitig Netzwerkkommunikation durchführen kann.
 
-ESP-NOW
+#### ESP-NOW
 
 ESP-NOW ist ein von Espressif entwickeltes Kommunikationsprotokoll, das eine direkte Peer-to-Peer-Kommunikation zwischen ESP-Geräten ermöglicht. Dabei wird kein WLAN-Router benötigt. Die Kommunikation erfolgt über MAC-Adressen und ist sehr energieeffizient sowie latenzarm.
 
-PIR-Bewegungssensor
+#### PIR-Bewegungssensor
 
 Der PIR-Sensor (Passive Infrared Sensor) erkennt Bewegungen durch Änderungen der Infrarotstrahlung im Umfeld. Sobald eine Wärmeänderung erkannt wird, wird ein digitales Signal ausgegeben.
 
-MQ-Gassensor
+#### MQ-Gassensor
 
 Der MQ-Gassensor misst Gaswerte über eine Änderung des elektrischen Widerstands. Je nach Gaskonzentration verändert sich der analoge Spannungswert, welcher vom ESP32 ausgelesen wird.
 
-Webserver auf ESP32
+#### Webserver auf ESP32
 
 Der ESP32 kann einen eigenen Webserver hosten, welcher über einen Access Point erreichbar ist. Dadurch können Sensordaten in einem Browser dargestellt werden.
 
@@ -49,56 +49,60 @@ Der ESP32 kann einen eigenen Webserver hosten, welcher über einen Access Point 
 
 ## 4. Arbeitsschritt
 
-4.1 Hardwareaufbau
+#### 4.1 Hardwareaufbau
 
 Zuerst wurde der ESP32 mit folgenden Sensoren verbunden:
 
-MQ-Gassensor → analoger Pin GPIO 34
-PIR-Bewegungssensor → digitaler Pin GPIO 32
+- MQ-Gassensor → analoger Pin GPIO 34
+- PIR-Bewegungssensor → digitaler Pin GPIO 32
 
 Zusätzlich wurden folgende Komponenten angeschlossen:
 
-OLED Display (I2C)
-RGB-LED zur Statusanzeige
-4.2 ESP-NOW Verbindung
+- OLED Display (I2C)
+- RGB-LED zur Statusanzeige
+
+#### 4.2 ESP-NOW Verbindung
 
 Ein ESP32 wurde als Sender und ein zweiter als Empfänger konfiguriert. Beide Geräte wurden über ihre MAC-Adresse gekoppelt.
 
 Der Sender:
 
-liest Sensordaten aus
-speichert sie in einer Struktur
-sendet sie alle 1.5 Sekunden an den Empfänger
-4.3 Webserver
+- liest Sensordaten aus
+- speichert sie in einer Struktur
+- sendet sie alle 1.5 Sekunden an den Empfänger
+
+#### 4.3 Webserver
 
 Der Empfänger erstellt einen eigenen WLAN-Access-Point („IoT_Station“). Über diesen kann eine Webseite im Browser aufgerufen werden.
 
 Die Webseite zeigt:
 
-aktuelle Gaswerte
-Bewegungsstatus
-ein Live-Diagramm (Chart.js)
-4.4 Datenverarbeitung
+- aktuelle Gaswerte
+- Bewegungsstatus
+- ein Live-Diagramm (Chart.js)
+
+#### 4.4 Datenverarbeitung
 
 Die empfangenen Daten werden:
 
-im RAM gespeichert
-auf OLED angezeigt
-im Webserver bereitgestellt
-optional an eine Datenbank gesendet
-4.5 Systemtest
+- im RAM gespeichert
+- auf OLED angezeigt
+- im Webserver bereitgestellt
+- optional an eine Datenbank gesendet
+
+#### 4.5 Systemtest
 
 Das System wurde getestet, indem:
 
-Bewegungen ausgelöst wurden
-Gaswerte verändert wurden
-Verbindungsausfälle simuliert wurden
+- Bewegungen ausgelöst wurden
+- Gaswerte verändert wurden
+- Verbindungsausfälle simuliert wurden
 
 Dabei wurde geprüft, ob:
 
-Daten korrekt übertragen werden
-Anzeige aktualisiert wird
-Status-LED korrekt reagiert
+- Daten korrekt übertragen werden
+- Anzeige aktualisiert wird
+- Status-LED korrekt reagiert
 
 ---
 
