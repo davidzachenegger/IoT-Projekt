@@ -399,7 +399,7 @@ void loop() {
 
 --- 
 
-## 5. Zusammenfassung
+## 6. Zusammenfassung
 
 Es wurde ein vollständiges IoT-System entwickelt, welches Sensordaten drahtlos zwischen zwei ESP32-Modulen überträgt und in Echtzeit visualisiert. Die Daten werden auf einem Webinterface, einem OLED-Display sowie über eine LED-Statusanzeige dargestellt.
 
@@ -409,7 +409,7 @@ Das Projekt erfüllt alle Anforderungen eines einfachen IoT-Überwachungssystems
 
 ---
 
-## 6. Quellen
+## 7. Quellen
 
 [1] Espressif Systems, “ESP-NOW Documentation,” 2025. [Online]. Available: https://www.espressif.com
 
