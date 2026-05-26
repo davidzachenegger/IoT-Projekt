@@ -1,47 +1,104 @@
-# IoT Überwachungssystem mit ESP32 (ESP-NOW)
+# IoT - Projekt
 
-## Gas- und Bewegungserkennung mit Web-Dashboard und OLED Anzeige
+## Gas- und Bewegungserkennung 
 
-Verfasser: **Nazar Tymoshenko, David [Nachname]**  
+Verfasser: **Nazar Tymoshenko, David Zachenegger**  
 Datum: **26.05.2026**
 
 ---
 
 ## 1. Einführung
 
-Im Rahmen dieses Projekts wird ein IoT-System mit zwei ESP32-Modulen zur Erfassung und Übertragung von Sensordaten entwickelt. Dabei werden Gas- und Bewegungsdaten mittels Sensoren erfasst, drahtlos über ESP-NOW übertragen und in einer Webanwendung visualisiert. Das System wird zur Demonstration moderner IoT-Kommunikation, Datenverarbeitung und Echtzeit-Visualisierung eingesetzt.
+Im Rahmen dieses Projekts wird ein IoT-System auf Basis von ESP32-Mikrocontrollern entwickelt, welches Gas- und Bewegungsdaten erfasst, drahtlos über ESP-NOW überträgt und anschließend visualisiert. Dabei wird ein lokales Überwachungssystem realisiert, das unabhängig von einem Internetrouter funktioniert.
+
+Die erfassten Sensordaten werden in Echtzeit auf einem Webinterface sowie auf einem OLED-Display dargestellt und können optional in einer Datenbank gespeichert werden. Ziel ist die Umsetzung einer stabilen IoT-Kommunikation sowie einer verständlichen Echtzeit-Datenvisualisierung.
 
 ---
 
 ## 2. Projektbeschreibung
 
-Das entwickelte Projekt ist ein IoT-System auf Basis von zwei ESP32-Modulen zur Erfassung von Gas- und Bewegungsdaten. Die Sensordaten werden drahtlos über ESP-NOW übertragen, verarbeitet und in einem Webinterface sowie optional in einer Datenbank dargestellt. Ziel ist eine einfache, stabile und echtzeitfähige Visualisierung der Messwerte.
+Es wurde ein IoT-System mit zwei ESP32-Modulen realisiert, welches Gas- und Bewegungsdaten über Sensoren erfasst und drahtlos über ESP-NOW überträgt. Die Daten werden am Empfänger verarbeitet, visualisiert und in Echtzeit über ein Web-Dashboard dargestellt.
+
+Zusätzlich erfolgt eine lokale Anzeige über ein OLED-Display sowie eine LED-Statusanzeige. Optional können die Messwerte in einer MySQL-Datenbank gespeichert und für spätere Analysen verwendet werden.
 
 ---
 
 ## 3. Theorie
 
-Für die Umsetzung des Projekts werden grundlegende Kenntnisse im Bereich der Mikrocontroller-Technik und der Sensorik benötigt. Der ESP32 wird als zentrale Steuer- und Kommunikationseinheit eingesetzt, da er über integriertes WLAN verfügt und sowohl analoge als auch digitale Sensoren auslesen kann. Zusätzlich wird das ESP-NOW-Protokoll verwendet, welches eine direkte, stromsparende und internetunabhängige Kommunikation zwischen mehreren ESP-Geräten ermöglicht.
+ESP32
 
-Zur Datenerfassung werden ein PIR-Bewegungssensor sowie ein MQ-Gassensor eingesetzt. Der PIR-Sensor erkennt Bewegungen über Infrarotänderungen und liefert ein digitales Signal, während der MQ-Sensor Gaswerte als analoge Messgröße erfasst. Die erfassten Daten werden anschließend verarbeitet, gefiltert und zeitlich mit einem Zeitstempel versehen.
+Der ESP32 ist ein Mikrocontroller mit integrierter WLAN- und Bluetooth-Funktion. Er wird in IoT-Anwendungen eingesetzt, da er analoge und digitale Sensoren auslesen und gleichzeitig Netzwerkkommunikation durchführen kann.
 
-Für die Visualisierung wird ein Webserver auf dem ESP32 eingesetzt, der eine Webseite im lokalen Netzwerk bereitstellt. Zusätzlich kann eine Speicherung der Daten in einer MySQL-Datenbank erfolgen, um historische Messwerte auszuwerten.
+ESP-NOW
 
-Zentrale Fragestellungen des Projekts sind: Wie zuverlässig können Sensordaten drahtlos ohne Internet übertragen werden? Wie können Messwerte sinnvoll gefiltert und dargestellt werden? Und wie kann ein stabiles System aufgebaut werden, das mehrere Komponenten (Sensoren, Kommunikation, Webinterface und Datenbank) miteinander verbindet?
+ESP-NOW ist ein von Espressif entwickeltes Kommunikationsprotokoll, das eine direkte Peer-to-Peer-Kommunikation zwischen ESP-Geräten ermöglicht. Dabei wird kein WLAN-Router benötigt. Die Kommunikation erfolgt über MAC-Adressen und ist sehr energieeffizient sowie latenzarm.
+
+PIR-Bewegungssensor
+
+Der PIR-Sensor (Passive Infrared Sensor) erkennt Bewegungen durch Änderungen der Infrarotstrahlung im Umfeld. Sobald eine Wärmeänderung erkannt wird, wird ein digitales Signal ausgegeben.
+
+MQ-Gassensor
+
+Der MQ-Gassensor misst Gaswerte über eine Änderung des elektrischen Widerstands. Je nach Gaskonzentration verändert sich der analoge Spannungswert, welcher vom ESP32 ausgelesen wird.
+
+Webserver auf ESP32
+
+Der ESP32 kann einen eigenen Webserver hosten, welcher über einen Access Point erreichbar ist. Dadurch können Sensordaten in einem Browser dargestellt werden.
 
 ---
 
 ## 4. Arbeitsschritt
 
-Zuerst wird die Hardware aufgebaut, indem der ESP32 mit dem PIR-Bewegungssensor und dem MQ-Gassensor verbunden wird. Der PIR-Sensor wird an einen digitalen GPIO-Pin angeschlossen, während der MQ-Sensor über einen analogen Eingang (ADC) mit dem ESP32 verbunden wird. Anschließend wird geprüft, ob beide Sensoren korrekte Werte liefern, indem die Messdaten im seriellen Monitor kontrolliert werden.
+4.1 Hardwareaufbau
 
-Im nächsten Schritt wird die ESP-NOW-Kommunikation eingerichtet. Dazu wird ein ESP32 als Sender und ein zweiter ESP32 als Empfänger konfiguriert. Beide Geräte werden im gleichen ESP-NOW-Kanal betrieben und über ihre MAC-Adresse miteinander gekoppelt. Der Sender erfasst in regelmäßigen Intervallen die Sensordaten, fasst sie in einer Datenstruktur zusammen und überträgt sie an den Empfänger.
+Zuerst wurde der ESP32 mit folgenden Sensoren verbunden:
 
-Der Empfänger verarbeitet die eingehenden Daten und speichert die aktuellen Werte im Arbeitsspeicher. Danach wird ein integrierter Webserver gestartet, der ein eigenes WLAN (Access Point) erstellt. Über diese Verbindung kann eine Webseite aufgerufen werden, die die aktuellen Sensorwerte anzeigt und regelmäßig aktualisiert.
+MQ-Gassensor → analoger Pin GPIO 34
+PIR-Bewegungssensor → digitaler Pin GPIO 32
 
-Optional wird eine Datenbankverbindung eingerichtet, bei der die empfangenen Messwerte zusätzlich an eine MySQL-Datenbank gesendet werden. Dort werden die Daten mit Zeitstempel gespeichert und können später für Diagramme und Analysen verwendet werden.
+Zusätzlich wurden folgende Komponenten angeschlossen:
 
-Zum Abschluss wird das gesamte System getestet, indem Bewegungen ausgelöst und Gaswerte verändert werden. Dabei wird überprüft, ob die Daten korrekt übertragen, angezeigt und gespeichert werden.
+OLED Display (I2C)
+RGB-LED zur Statusanzeige
+4.2 ESP-NOW Verbindung
+
+Ein ESP32 wurde als Sender und ein zweiter als Empfänger konfiguriert. Beide Geräte wurden über ihre MAC-Adresse gekoppelt.
+
+Der Sender:
+
+liest Sensordaten aus
+speichert sie in einer Struktur
+sendet sie alle 1.5 Sekunden an den Empfänger
+4.3 Webserver
+
+Der Empfänger erstellt einen eigenen WLAN-Access-Point („IoT_Station“). Über diesen kann eine Webseite im Browser aufgerufen werden.
+
+Die Webseite zeigt:
+
+aktuelle Gaswerte
+Bewegungsstatus
+ein Live-Diagramm (Chart.js)
+4.4 Datenverarbeitung
+
+Die empfangenen Daten werden:
+
+im RAM gespeichert
+auf OLED angezeigt
+im Webserver bereitgestellt
+optional an eine Datenbank gesendet
+4.5 Systemtest
+
+Das System wurde getestet, indem:
+
+Bewegungen ausgelöst wurden
+Gaswerte verändert wurden
+Verbindungsausfälle simuliert wurden
+
+Dabei wurde geprüft, ob:
+
+Daten korrekt übertragen werden
+Anzeige aktualisiert wird
+Status-LED korrekt reagiert
 
 ---
 
@@ -277,3 +334,27 @@ updateDisplay();
 server.handleClient();
 }
 ```
+
+--- 
+
+## 5. Zusammenfassung
+
+Es wurde ein vollständiges IoT-System entwickelt, welches Sensordaten drahtlos zwischen zwei ESP32-Modulen überträgt und in Echtzeit visualisiert. Die Daten werden auf einem Webinterface, einem OLED-Display sowie über eine LED-Statusanzeige dargestellt.
+
+Die größte Herausforderung lag in der stabilen ESP-NOW-Kommunikation sowie in der Synchronisation der Datenanzeige. Diese Probleme konnten durch strukturierte Datenübertragung und regelmäßige Aktualisierung gelöst werden.
+
+Das Projekt erfüllt alle Anforderungen eines einfachen IoT-Überwachungssystems und kann durch eine Datenbankanbindung erweitert werden.
+
+---
+
+## 6. Quellen
+
+[1] Espressif Systems, “ESP-NOW Documentation,” 2025. [Online]. Available: https://www.espressif.com
+
+[2] Arduino, “ESP32 WiFi Library,” 2025. [Online]. Available: https://docs.arduino.cc
+
+[3] Adafruit, “SSD1306 OLED Guide,” 2024. [Online]. Available: https://learn.adafruit.com
+
+[4] Chart.js, “JavaScript Chart Library,” 2025. [Online]. Available: https://www.chartjs.org
+
+[5] Wikipedia, “ESP32 Microcontroller,” 2025. [Online]. Available: https://en.wikipedia.org/wiki/ESP32
