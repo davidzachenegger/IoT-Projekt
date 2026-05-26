@@ -389,15 +389,18 @@ Der Empfänger verarbeitet die empfangenen Daten, stellt sie auf einem OLED-Disp
 
 ## 5. Tabellenanalyse
 
-| Variable                          | n    | M     | SD   | 1     | 2     | 3     | 4     | 5     | 6     | 7     |
-|----------------------------------|------|-------|------|-------|-------|-------|-------|-------|-------|-------|
-| 1. Internal–external status      | 3697 | 0.43  | 0.49 | —     |       |       |       |       |       |       |
-| 2. Manager job performance       | 2134 | 3.14  | 0.62 | -0.08 | —     |       |       |       |       |       |
-| 3. Starting salary               | 3697 | 1.01  | 0.27 | 0.45  | -0.01 | —     |       |       |       |       |
-| 4. Subsequent promotion          | 3697 | 0.33  | 0.47 | 0.08  | 0.07  | 0.04  | —     |       |       |       |
-| 5. Organizational tenure         | 3697 | 6.45  | 6.62 | -0.29 | 0.09  | 0.01  | 0.09  | —     |       |       |
-| 6. Unit service performance      | 3505 | 85.00 | 6.98 | -0.25 | -0.39 | 0.24  | 0.08  | 0.01  | —     |       |
-| 7. Unit financial performance    | 694  | 42.61 | 5.86 | 0.00  | -0.03 | 0.12  | -0.07 | -0.02 | 0.16  | —     |
+## 5. Tabellenanalyse (Sensordaten)
+
+| Zeit (s) | Gaswert (analog) | Bewegung (PIR) | Status       |
+|----------|------------------|----------------|--------------|
+| 0.0      | 120              | Nein           | OK           |
+| 1.5      | 135              | Nein           | OK           |
+| 3.0      | 410              | Ja             | Bewegung     |
+| 4.5      | 390              | Ja             | Bewegung     |
+| 6.0      | 250              | Nein           | OK           |
+| 7.5      | 600              | Nein           | Gas erhöht   |
+| 9.0      | 580              | Nein           | Gas erhöht   |
+| 10.5     | 200              | Nein           | OK           |
 
 Die Tabelle zeigt statistische Kennwerte sowie Korrelationen zwischen verschiedenen Variablen. Besonders auffällig ist die Korrelation von 0.45 zwischen dem Startgehalt und dem internen Status, was auf einen moderaten positiven Zusammenhang hinweist.
 
