@@ -421,7 +421,7 @@ Das Projekt erfüllt alle Anforderungen eines einfachen IoT-Überwachungssystems
 
 [2] Arduino, “ESP32 WiFi Library,” 2025. [Online]. Verfügbar unter: https://docs.arduino.cc
 
-[3] Adafruit, “SSD1306 OLED Guide,” 2024. [Online]. Verfügbar unter:: https://learn.adafruit.com
+[3] Adafruit, “SSD1306 OLED Guide,” 2024. [Online]. Verfügbar unter: https://learn.adafruit.com
 
 [4] Chart.js, “JavaScript Chart Library,” 2025. [Online]. Verfügbar unter: https://www.chartjs.org
 
