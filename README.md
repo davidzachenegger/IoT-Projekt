@@ -104,6 +104,10 @@ Dabei wurde geprüft, ob:
 - Anzeige aktualisiert wird
 - Status-LED korrekt reagiert
 
+#### 4.6 Erweiterungsmöglichkeiten
+
+Das System kann später durch eine Datenbankanbindung, Cloud-Integration oder mobile App erweitert werden.
+
 ---
 
 ## Sender (ESP32)
@@ -400,7 +404,7 @@ Der Empfänger verarbeitet die empfangenen Daten, stellt sie auf einem OLED-Disp
 | 9.0      | 580              | Nein           | Gas erhöht   |
 | 10.5     | 200              | Nein           | OK           |
 
-Die Tabelle zeigt beispielhafte Sensordaten aus dem Testbetrieb des Systems. Es ist erkennbar, dass erhöhte Gaswerte sowie erkannte Bewegung korrekt im System dargestellt werden.
+Die Tabelle zeigt exemplarische Sensordaten aus dem Testbetrieb des IoT-Systems. Dabei ist erkennbar, dass sowohl Bewegungen als auch erhöhte Gaswerte korrekt erkannt und im System verarbeitet werden. Es ist erkennbar, dass erhöhte Gaswerte sowie erkannte Bewegung korrekt im System dargestellt werden.
 
 --- 
 
