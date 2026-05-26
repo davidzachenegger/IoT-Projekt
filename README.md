@@ -47,7 +47,7 @@ Der ESP32 kann einen eigenen Webserver hosten, welcher über einen Access Point 
 
 ---
 
-## 4. Arbeitsschritt
+## 4. Arbeitsschritte
 
 #### 4.1 Hardwareaufbau
 
@@ -180,7 +180,7 @@ void loop() {
   delay(1500); // Pause zur Stabilisierung
 }
 ```
-Der Sender liest kontinuierlich die Werte des Gas- und Bewegungssensors aus. Diese Daten werden in einer Struktur gespeichert und über das ESP-NOW-Protokoll an den Empfänger gesendet.
+Die Sensordaten werden kontinuierlich vom Sender ausgelesen, in einer Datenstruktur gespeichert und anschließend über das ESP-NOW-Protokoll an den Empfänger übertragen.
 
 ---
 
@@ -399,9 +399,9 @@ Der Empfänger verarbeitet die empfangenen Daten, stellt sie auf einem OLED-Disp
 | 6. Unit service performance      | 3505 | 85.00 | 6.98 | -0.25 | -0.39 | 0.24  | 0.08  | 0.01  | —     |       |
 | 7. Unit financial performance    | 694  | 42.61 | 5.86 | 0.00  | -0.03 | 0.12  | -0.07 | -0.02 | 0.16  | —     |
 
-Die Tabelle zeigt statistische Kennwerte sowie Zusammenhänge zwischen verschiedenen Variablen. Dabei ist erkennbar, dass insbesondere das Startgehalt einen positiven Zusammenhang mit späterer Leistung aufweist.
+Die Tabelle zeigt statistische Kennwerte sowie Korrelationen zwischen verschiedenen Variablen. Besonders auffällig ist die Korrelation von 0.45 zwischen dem Startgehalt und dem internen Status, was auf einen moderaten positiven Zusammenhang hinweist.
 
-Negative Werte deuten auf schwache oder gegensätzliche Zusammenhänge hin. Insgesamt wird deutlich, dass mehrere Faktoren die Entwicklung und Leistung beeinflussen.
+Negative Werte, wie beispielsweise -0.29 bei der Betriebszugehörigkeit, deuten auf einen inversen Zusammenhang hin. Insgesamt wird deutlich, dass mehrere Faktoren gemeinsam die Entwicklung und Leistung beeinflussen.
 
 --- 
 
