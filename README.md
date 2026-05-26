@@ -389,8 +389,6 @@ Der Empfänger verarbeitet die empfangenen Daten, stellt sie auf einem OLED-Disp
 
 ## 5. Tabellenanalyse
 
-## 5. Tabellenanalyse (Sensordaten)
-
 | Zeit (s) | Gaswert (analog) | Bewegung (PIR) | Status       |
 |----------|------------------|----------------|--------------|
 | 0.0      | 120              | Nein           | OK           |
