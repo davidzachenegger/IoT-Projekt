@@ -405,12 +405,12 @@ Der Empfänger verarbeitet die empfangenen Daten, stellt sie auf einem OLED-Disp
 |----------------------------|------------------------------------------|-------
 | ESP32 (Sender)             | Erfassung und Übertragung der Daten      |
 | ESP32 (Empfänger)          | Empfang und Anzeige im Webinterface      |
-| Bewegungssensor            | Messung der Bewegung                     |
-| Gassensor                  | Lokale Anzeige der Messwerte             |
+| Bewegungssensor            | Messung der Bewegung (boolean)           |
+| Gassensor                  | Messung des Gaswerts                     |
 | OLED-Display               | Lokale Anzeige der Messwerte             |X
-| RGB-LED                    | Visuelle Darstellung der Distanz         |X
-| Grafik mit Access Point   | Da wird ganze Grafick gezeichnet          |
-| Erweiterte Grafik mit API  | Normale Grafick von Abstände mit API     |X
+| RGB-LED                    | Visuelle Darstellung der Bewegung        |X
+| Grafik mit Access Point    | Grafik wird im Webserver dargestellt     |
+| Erweiterte Grafik mit API  | Grafik wird mit der API dargestellt      |X
 
 Die Tabelle zeigt exemplarische Sensordaten aus dem Testbetrieb des IoT-Systems. Dabei ist erkennbar, dass sowohl Bewegungen als auch erhöhte Gaswerte korrekt erkannt und im System verarbeitet werden.
 
