@@ -60,6 +60,7 @@ Zusätzlich wurden folgende Komponenten angeschlossen:
 
 - OLED Display (I2C)
 - RGB-LED zur Statusanzeige
+![Schaltplan](IoT - Projekt.jpeg)
 
 #### 4.2 ESP-NOW Verbindung
 
