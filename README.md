@@ -85,6 +85,8 @@ Die Webseite zeigt:
 - Bewegungsstatus
 - ein Live-Diagramm (Chart.js)
 
+![Webserver](webserver.jpeg)
+
 #### 4.4 Datenverarbeitung
 
 Die empfangenen Daten werden:
