@@ -92,6 +92,8 @@ Die empfangenen Daten werden:
 - im Webserver bereitgestellt
 - optional an eine Datenbank gesendet
 
+![OLED-Screen](oledscreen.jpg)
+
 #### 4.5 Systemtest
 
 Das System wurde getestet, indem:
